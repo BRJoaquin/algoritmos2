@@ -1,5 +1,5 @@
-#ifndef TABLA_HASH_ABIERTA
-#define TABLA_HASH_ABIERTA
+#ifndef TABLA_HASH_CERRADO
+#define TABLA_HASH_CERRADO
 #include <string>
 #include <iostream>
 #include <math.h>
