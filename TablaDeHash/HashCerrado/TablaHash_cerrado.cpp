@@ -19,7 +19,6 @@ private:
     int tamanio;
     int cantidadDeElementos;
 
-    
     bool esPrimo(int n)
     {
         if (n <= 1)
@@ -124,7 +123,7 @@ private:
 public:
     TablaHashCerrada_Agenda(int tamaniInicial)
     {
-        this->tamanio =  this->siguientePrimo(tamaniInicial);
+        this->tamanio = this->siguientePrimo(tamaniInicial);
         this->cantidadDeElementos = 0;
         array = new Asociacion *[this->tamanio];
     }
@@ -160,14 +159,19 @@ public:
 int main()
 {
     int opc = -1;
-    TablaHashCerrada_Agenda *tabla = new TablaHashCerrada_Agenda(10);
+    int tamInit;
+    cout << "Ingrese tam inicial de la tabla" << endl;
+    cin >> tamInit;
+    TablaHashCerrada_Agenda *tabla = new TablaHashCerrada_Agenda(tamInit);
     while (opc != 0)
     {
+        cout << endl;
         cout << "Seleccione operacion:" << endl;
         cout << "0) Salir" << endl;
         cout << "1) Ingresar dato" << endl;
         cout << "2) Imprimir tabla" << endl;
         cout << "3) Generar datos de entrada" << endl;
+        cout << endl;
 
         cin >> opc;
         if (opc == 1)
@@ -192,7 +196,7 @@ int main()
             for (int i = 0; i < cantidadDeDatos; i++)
             {
                 string nombreRandom = "";
-                int cantidadDeLetras =(rand() % 10 + 1);
+                int cantidadDeLetras = (rand() % 10 + 1);
                 for (int j = 0; j < cantidadDeLetras; j++)
                 {
                     nombreRandom += (char)(rand() % 26 + 65);

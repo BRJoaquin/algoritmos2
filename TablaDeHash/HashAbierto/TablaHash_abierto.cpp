@@ -21,30 +21,6 @@ private:
     int tamanio;
     int cantidadDeElementos;
 
-    void rehash()
-    {
-        int nuevoTamanio = this->tamanio * 2;
-        Lista *nuevoArray = new Lista[nuevoTamanio];
-        Lista *viejoArray = this->arrList;
-        // recorrer todos los elementos de mi viejo array
-        for (int i = 0; i < this->tamanio; i++)
-        {
-            Lista nodoLista = arrList[i];
-            while (nodoLista != NULL)
-            {
-                int pos = abs(this->fnHash(nodoLista->clave)) % nuevoTamanio;
-                Lista bucket = nuevoArray[pos];
-                Lista nuevoNodo = new NodoLista(nodoLista->clave, nodoLista->valor, bucket);
-                nuevoArray[pos] = nuevoNodo;
-
-                nodoLista = nodoLista->sig;
-            }
-        }
-        this->tamanio = nuevoTamanio;
-        this->arrList = nuevoArray;
-        // TODO delete viejoArray
-    }
-
     float factorDeCarga()
     {
         return (float)this->cantidadDeElementos / this->tamanio;
@@ -81,11 +57,23 @@ public:
 
     int fnHash(string clave)
     {
-        int sum = 0;
-        for (int k = 0; k < clave.length(); k++)
-            sum = sum + int(clave[k]);
-        return sum;
+        // OPC 1
         // return clave[0] - 65;
+
+        // OPC 2
+        // int sum = 0;
+        // for (int k = 0; k < clave.length(); k++)
+        //     sum = sum + int(clave[k]);
+        // return sum;
+
+        // OPC 3
+        // Ref: https://cseweb.ucsd.edu/~kube/cls/100/Lectures/lec16/lec16-15.html
+        int h = 0;
+
+        for (int i = 0; i < clave.length(); i++){
+            h = 31 * h + int(clave[i]);
+        }
+        return h;
     }
 
     void insertar(string unaClave, int unValor)
@@ -103,10 +91,35 @@ public:
             this->cantidadDeElementos++;
         }
 
+        // Es bueno tenerlo aqui??
         if (this->factorDeCarga() > 0.7)
         {
             this->rehash();
         }
+    }
+
+    void rehash()
+    {
+        int nuevoTamanio = this->tamanio * 2;
+        Lista *nuevoArray = new Lista[nuevoTamanio];
+        Lista *viejoArray = this->arrList;
+        // recorrer todos los elementos de mi viejo array
+        for (int i = 0; i < this->tamanio; i++)
+        {
+            Lista nodoLista = arrList[i];
+            while (nodoLista != NULL)
+            {
+                int pos = abs(this->fnHash(nodoLista->clave)) % nuevoTamanio;
+                Lista bucket = nuevoArray[pos];
+                Lista nuevoNodo = new NodoLista(nodoLista->clave, nodoLista->valor, bucket);
+                nuevoArray[pos] = nuevoNodo;
+
+                nodoLista = nodoLista->sig;
+            }
+        }
+        this->tamanio = nuevoTamanio;
+        this->arrList = nuevoArray;
+        // TODO delete viejoArray
     }
 
     void imprimir()
@@ -122,21 +135,27 @@ public:
             }
             cout << " nl" << endl;
         }
+        cout << endl << "Factor de carga: " << this->factorDeCarga() << endl;
     }
 };
 
 int main()
 {
     int opc = -1;
-    TablaHashAbierta_Agenda *tabla = new TablaHashAbierta_Agenda(10);
+    int tamInit;
+    cout << "Ingrese tam inicial de la tabla" << endl;
+    cin >> tamInit;
+    TablaHashAbierta_Agenda *tabla = new TablaHashAbierta_Agenda(tamInit);
     while (opc != 0)
     {
+        cout << endl;
         cout << "Seleccione operacion:" << endl;
         cout << "0) Salir" << endl;
         cout << "1) Ingresar dato" << endl;
         cout << "2) Imprimir tabla" << endl;
         cout << "3) Generar datos de entrada" << endl;
-        // cout << "4) Rehash" << endl;
+        cout << "4) Rehash" << endl;
+        cout << endl;
 
         cin >> opc;
         if (opc == 1)
@@ -168,6 +187,10 @@ int main()
                 int numeroRandom = rand() % 900 + 100;
                 tabla->insertar(nombreRandom, numeroRandom);
             }
+        }
+        else if (opc == 4)
+        {
+            tabla->rehash();
         }
     }
 
