@@ -1,1 +1,1 @@
-algoritmos2
+Repositorio donde se encuentran codigos de ejemplos vistos en clase de A2
