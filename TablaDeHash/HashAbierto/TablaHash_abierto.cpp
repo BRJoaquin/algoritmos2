@@ -47,6 +47,44 @@ private:
         }
     }
 
+    int recuperarRecursivo(string unaClave, NodoLista *&ptr)
+    {
+        if (ptr == NULL)
+        {
+            return -1;
+        }
+        else
+        {
+            if (ptr->clave == unaClave)
+            {
+                return ptr->valor;
+            }
+            else
+            {
+                return recuperarRecursivo(unaClave, ptr->sig);
+            }
+        }
+    }
+
+    bool existeRecursivo(string unaClave, NodoLista *&ptr)
+    {
+        if (ptr == NULL)
+        {
+            return false;
+        }
+        else
+        {
+            if (ptr->clave == unaClave)
+            {
+                return true;
+            }
+            else
+            {
+                return existeRecursivo(unaClave, ptr->sig);
+            }
+        }
+    }
+
 public:
     TablaHashAbierta_Agenda(int tamaniInicial)
     {
@@ -70,7 +108,8 @@ public:
         // Ref: https://cseweb.ucsd.edu/~kube/cls/100/Lectures/lec16/lec16-15.html
         int h = 0;
 
-        for (int i = 0; i < clave.length(); i++){
+        for (int i = 0; i < clave.length(); i++)
+        {
             h = 31 * h + int(clave[i]);
         }
         return h;
@@ -78,24 +117,23 @@ public:
 
     void insertar(string unaClave, int unValor)
     {
-        // Insertar siempre al pricipio
-        // int pos = abs(this->fnHash(unaClave)) % this->tamanio;
-        // Lista bucket = this->arrList[pos];
-        // Lista nuevoNodo = new NodoLista(unaClave, unValor, bucket);
-        // this->arrList[pos] = nuevoNodo;
-        // this->cantidadDeElementos++;
-
         int pos = abs(this->fnHash(unaClave)) % this->tamanio;
         if (!this->insertarRecusrivo(unaClave, unValor, arrList[pos]))
         {
             this->cantidadDeElementos++;
         }
+    }
 
-        // Es bueno tenerlo aqui??
-        if (this->factorDeCarga() > 0.7)
-        {
-            this->rehash();
-        }
+    int recuperar(string unaClave)
+    {
+        int pos = abs(this->fnHash(unaClave)) % this->tamanio;
+        return this->recuperarRecursivo(unaClave, arrList[pos]);
+    }
+
+    bool existe(string unaClave)
+    {
+        int pos = abs(this->fnHash(unaClave)) % this->tamanio;
+        return this->existeRecursivo(unaClave, arrList[pos]);
     }
 
     void rehash()
@@ -135,7 +173,8 @@ public:
             }
             cout << " nl" << endl;
         }
-        cout << endl << "Factor de carga: " << this->factorDeCarga() << endl;
+        cout << endl
+             << "Factor de carga: " << this->factorDeCarga() << endl;
     }
 };
 
@@ -155,6 +194,8 @@ int main()
         cout << "2) Imprimir tabla" << endl;
         cout << "3) Generar datos de entrada" << endl;
         cout << "4) Rehash" << endl;
+        cout << "5) Existe clave" << endl;
+        cout << "6) Recuperar valor" << endl;
         cout << endl;
 
         cin >> opc;
@@ -191,6 +232,34 @@ int main()
         else if (opc == 4)
         {
             tabla->rehash();
+        }
+        else if (opc == 5)
+        {
+            string consulta;
+            cout << "Ingrese la clave que quiere saber si existe" << endl;
+            cin >> consulta;
+            bool existe = tabla->existe(consulta);
+            if(existe) {
+                cout << "Su clave existe" << endl;
+            }else {
+                cout << "Su clave no existe" << endl;
+            }
+        }
+        else if (opc == 6)
+        {
+            string consulta;
+            cout << "Ingrese la clave que quiere recuperar" << endl;
+            cin >> consulta;
+            bool existe = tabla->existe(consulta);
+            if (existe)
+            {
+                int valor = tabla->recuperar(consulta);
+                cout << "El valor de la clave es " << valor << endl; 
+            }
+            else
+            {
+                cout << "Su clave no existe" << endl;
+            }
         }
     }
 
