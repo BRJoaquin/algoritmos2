@@ -106,7 +106,7 @@ public:
     {
         this->tamanio = tamaniInicial;
         this->cantidadDeElementos = 0;
-        arrList = new Lista[this->tamanio];
+        arrList = new Lista[this->tamanio]();
     }
 
     int fnHash(string clave)
