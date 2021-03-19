@@ -160,7 +160,7 @@ public:
     void rehash()
     {
         int nuevoTamanio = this->tamanio * 2;
-        Lista *nuevoArray = new Lista[nuevoTamanio];
+        Lista *nuevoArray = new Lista[nuevoTamanio]();
         Lista *viejoArray = this->arrList;
         // recorrer todos los elementos de mi viejo array
         for (int i = 0; i < this->tamanio; i++)
