@@ -84,6 +84,22 @@ private:
             }
         }
     }
+    void eliminarRecursivo(string unaClave, NodoLista *&ptr)
+    {
+        if (ptr != NULL)
+        {
+            if (ptr->clave == unaClave)
+            {
+                NodoLista * aEliminar = ptr;
+                ptr = ptr->sig;
+                delete aEliminar;
+            }
+            else
+            {
+                return eliminarRecursivo(unaClave, ptr->sig);
+            }
+        }
+    }
 
 public:
     TablaHashAbierta_Agenda(int tamaniInicial)
@@ -134,6 +150,11 @@ public:
     {
         int pos = abs(this->fnHash(unaClave)) % this->tamanio;
         return this->existeRecursivo(unaClave, arrList[pos]);
+    }
+
+    void eliminar(string unaClave) {
+        int pos = abs(this->fnHash(unaClave)) % this->tamanio;
+        this->eliminarRecursivo(unaClave, arrList[pos]);
     }
 
     void rehash()
@@ -196,6 +217,7 @@ int main()
         cout << "4) Rehash" << endl;
         cout << "5) Existe clave" << endl;
         cout << "6) Recuperar valor" << endl;
+        cout << "7) Eliminar clave" << endl;
         cout << endl;
 
         cin >> opc;
@@ -260,6 +282,11 @@ int main()
             {
                 cout << "Su clave no existe" << endl;
             }
+        }else if(opc == 7) {
+            string consulta;
+            cout << "Ingrese la clave que quiere eliminar" << endl;
+            cin >> consulta;
+            tabla->eliminar(consulta);
         }
     }
 
