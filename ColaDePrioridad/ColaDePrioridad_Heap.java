@@ -1,4 +1,4 @@
-import java.util.Scanner;
+// import java.util.Scanner;
 
 abstract class ColaDePrioridad {
     abstract void insertar(int elemento);
@@ -64,7 +64,6 @@ class MinHeap {
 
     public void borrarMinimo() {
         if(!esVacio()) {
-            int ret = elementos[1];
             elementos[1] = elementos[ultimoLibre - 1];
             ultimoLibre--;
             hundir(1);

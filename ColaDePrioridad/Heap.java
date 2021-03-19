@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 class MinHeap {
     private int[] elementos;
     private int largo;
@@ -56,7 +54,6 @@ class MinHeap {
 
     public void borrarMinimo() {
         if(!esVacio()) {
-            int ret = elementos[1];
             elementos[1] = elementos[ultimoLibre - 1];
             ultimoLibre--;
             hundir(1);

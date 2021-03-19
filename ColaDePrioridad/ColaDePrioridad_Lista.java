@@ -1,4 +1,4 @@
-import java.util.Scanner;
+// import java.util.Scanner;
 
 abstract class ColaDePrioridad {
     abstract void insertar(int elemento);
