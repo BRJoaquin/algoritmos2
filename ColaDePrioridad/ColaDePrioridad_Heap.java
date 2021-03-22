@@ -93,7 +93,7 @@ class MinHeap {
     }
 
     public boolean estaLleno() {
-        return ultimoLibre == largo;
+        return ultimoLibre > largo;
     }
 
 }

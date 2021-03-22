@@ -9,16 +9,19 @@ class MinHeap {
         ultimoLibre = 1;
     }
 
-    private int izq(int nodo) {
-        return nodo * 2;
+    // navegar hacia la izquierda
+    private int izq(int posNodo) {
+        return posNodo * 2;
+    }
+    
+    // navegar hacia la derecha
+    private int der(int posNodo) {
+        return posNodo * 2 + 1;
     }
 
-    private int der(int nodo) {
-        return nodo * 2 + 1;
-    }
-
-    private int padre(int nodo) {
-        return nodo/2;
+    // navego hacia mi padre
+    private int padre(int posNodo) {
+        return posNodo/2;
     }
 
     private void intercambiar(int x, int y) {
@@ -29,18 +32,22 @@ class MinHeap {
 
     public void insertar(int nuevoElemento) {
         if(!estaLleno()) {
+            // inserto en la ultima posicion libre
             elementos[ultimoLibre] = nuevoElemento;
+            // floto la ultima posicion libre
             flotar(ultimoLibre);
             ultimoLibre++;
         }
     }
 
-    private void flotar(int nodo) {
-        if(nodo != 1) {
-            int nodoPadre = padre(nodo);
-            if(elementos[nodo] < elementos[nodoPadre]) {
-                intercambiar(nodo, nodoPadre);
-                flotar(nodoPadre);
+    private void flotar(int posNodo) {
+        // si no llegue a la raiz
+        if(posNodo != 1) {
+            int posNodoPadre = padre(posNodo);
+            // en el caso de que no sea mi posicion: intercambio y sigo flotando
+            if(elementos[posNodo] < elementos[posNodoPadre]) {
+                intercambiar(posNodo, posNodoPadre);
+                flotar(posNodoPadre);
             }
         }
     }
@@ -54,25 +61,28 @@ class MinHeap {
 
     public void borrarMinimo() {
         if(!esVacio()) {
+            // pongo en la raiz el ultimo elemento
             elementos[1] = elementos[ultimoLibre - 1];
             ultimoLibre--;
+            // hundo la raiz
             hundir(1);
         }
     }
 
-    private void hundir(int nodo) {
+    private void hundir(int posNodo) {
         // si tiene hijos (al menos 1)
-        if(izq(nodo) < ultimoLibre) {
-            int izq = izq(nodo);
-            int der = der(nodo);
-            int hijoMenor = izq;
+        if(izq(posNodo) < ultimoLibre) {
+            int posIzq = izq(posNodo);
+            int posDer = der(posNodo);
+            int hijoMenor = posIzq;
 
-            if(der < ultimoLibre && elementos[der] < elementos[izq]) {
-                hijoMenor = der;
+            // si tengo hijo derecho && el hijo derecho es menor que el hijo izquierdo
+            if(posDer < ultimoLibre && elementos[posDer] < elementos[posIzq]) {
+                hijoMenor = posDer;
             }
 
-            if(elementos[hijoMenor] < elementos[nodo]) {
-                intercambiar(hijoMenor, nodo);
+            if(elementos[hijoMenor] < elementos[posNodo]) {
+                intercambiar(hijoMenor, posNodo);
                 hundir(hijoMenor);
             }
         }
@@ -83,7 +93,7 @@ class MinHeap {
     }
 
     public boolean estaLleno() {
-        return ultimoLibre == largo;
+        return ultimoLibre > largo;
     }
 
     public void imprimirHeap() {
@@ -119,7 +129,7 @@ public class Heap {
         heap.insertar(100);
         heap.insertar(23);
         heap.insertar(21);
-
+        
         heap.imprimirHeap();
 
         System.out.println("Vacio el heap:");
