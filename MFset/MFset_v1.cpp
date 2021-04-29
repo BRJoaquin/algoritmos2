@@ -16,6 +16,7 @@ public:
     {
         for (int i = 0; i < n; i++)
         {
+            // yo me represento a mi mismo
             parent[i] = i;
         }
     }

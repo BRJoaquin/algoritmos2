@@ -197,9 +197,9 @@ public:
 
         cargarAristas(aristas);
 
-        for (int i = 0; i < A; i++)
+        for (int i = 0; i < A; i++) // // O(A^2) <- a mejorar con heap
         {
-            int menorAristaIndex = menorAristaNoProcesada(aristas, procesadas);
+            int menorAristaIndex = menorAristaNoProcesada(aristas, procesadas); // O(A)
             Arista menorArista = aristas[menorAristaIndex];
             procesadas[menorAristaIndex] = true;
             if (sets.find(menorArista.origen) != sets.find(menorArista.destino))
