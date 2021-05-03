@@ -103,7 +103,7 @@ private:
     bool esDirigido;
     bool esPonderado;
 
-    bool * initVisitados() {
+    bool * initEncolados() {
         return new bool[V+1](); // todos los valores en false
     }
 
@@ -167,10 +167,10 @@ public:
     }
 
     void BFS(int origen) {
-        bool * visitados = initVisitados(); // array de V+1 pos, todos en false
+        bool * encolados = initEncolados(); // array de V+1 pos, todos en false
         Cola<int> * cola = new Cola<int>(); // FIFO
         cola->encolar(origen);
-        visitados[origen] = true;
+        encolados[origen] = true;
         while(!cola->estaVacia()) {
             int ver = cola->desencolar();
             cout << ver << endl;
@@ -179,8 +179,8 @@ public:
             {
                 int w = adyacentesAV->dato.destino;
                 adyacentesAV =  adyacentesAV->sig; 
-                if(!visitados[w]) {
-                    visitados[w] = true;
+                if(!encolados[w]) {
+                    encolados[w] = true;
                     cola->encolar(w);
                 }
             }
@@ -188,7 +188,7 @@ public:
     }
 
     void DFS(int origen) {
-        bool * visitados =  initVisitados(); // array de V+1 pos, todos en false
+        bool * visitados = new bool[V+1]();
         DFS_rec(origen, visitados);
     }
 };
