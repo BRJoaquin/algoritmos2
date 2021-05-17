@@ -175,6 +175,7 @@ public:
             int ver = cola->desencolar();
             cout << ver << endl;
             ListaAristas adyacentesAV = this->adyacentesA(ver);
+            
             while ( adyacentesAV != NULL)
             {
                 int w = adyacentesAV->dato.destino;
