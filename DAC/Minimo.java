@@ -34,7 +34,7 @@ public class Minimo {
     }
 
     int mitad = inicio + (fin - inicio) / 2;
-
+    
     int min1 = minimoV2(valores, inicio, mitad);
     int min2 = minimoV2(valores, mitad + 1, fin);
 

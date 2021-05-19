@@ -13,7 +13,7 @@ class Hanoi {
   }
 
   public static void main(String args[]) {
-    int n = 3; // numero de discos
+    int n = 5; // numero de discos
     hanoi(n, 'A', 'C', 'B');
   }
 }

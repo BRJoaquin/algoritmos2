@@ -28,7 +28,7 @@ public class Prefix {
   }
 
   public static void main(String[] args) {
-    String[] prueba = { "ABC", "AB", "ABB", "124" };
+    String[] prueba = { "ABC", "AB", "ABB", "ABE" };
     String prefixComun = prefix(prueba, 0, prueba.length - 1);
     System.out.println(prefixComun);
   }

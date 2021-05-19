@@ -50,11 +50,17 @@ private:
     }
     int cantidadElementosAux(ABB nodo)
     {
-        if (nodo != 0)
-        {
-            return 1 + cantidadElementosAux(nodo->izq) + cantidadElementosAux(nodo->der);
+        if(nodo == 0) {
+            return 0
         }
-        return 0;
+        
+        ABB problemaIzquierdo = nodo->izq;
+        ABB problemaDerecho = nodo->der;
+
+        int sIzq = cantidadElementosAux(nodo->izq);
+        int sDer = cantidadElementosAux(nodo->der);
+
+        return 1 + sIzq + sDer;
     }
     int alturaAux(ABB nodo)
     {
@@ -130,9 +136,9 @@ int main()
 
     
     // miArbol->recInOrder();
-    // cout << "Cantidad de elemntos: " << miArbol->cantidadElementos() << endl;
+    cout << "Cantidad de elemntos: " << miArbol->cantidadElementos() << endl;
     // cout << "Altura del arbol: " << miArbol->altura() << endl;
-    cout << "Maximo recorrido: " << miArbol->maximoRecorrido() << endl;
+    // cout << "Maximo recorrido: " << miArbol->maximoRecorrido() << endl;
 
     return 0;
 }
