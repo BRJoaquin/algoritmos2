@@ -6,25 +6,43 @@ class Mochila01 {
         return (a > b) ? a : b;
     }
 
-    // post: retorna el mayor valor que puede entrar dentro de la mochila
-    static int mochila(int capacidadMochila, int pesos[], int valores[], int objetoHasta) {
-        // caso base
-        if (objetoHasta < 0 || capacidadMochila == 0)
+    // { obj1, obj2, obj3, .., objN-1, objN}
+    //                              
+    static int mochila01(int capacidad, int fin, int[] valores, int[] pesos) {
+        // si no tengo capacidad o no tengo objetos
+        if (capacidad == 0 || fin < 0) {
+            // no tengo valor
             return 0;
-
-        // En caso de que el objeto no entre lo descartamos (objetoHasta - 1)
-        if (pesos[objetoHasta] > capacidadMochila) {
-            return mochila(capacidadMochila, pesos, valores, objetoHasta - 1);
         }
 
-        // retornar el maximo de:
-        // usar el objeto (sumo valor, resto peso)
-        // no usar el objeto (llamo recursivo ignorando el objeto)
-        int valorDeUsarlo = valores[objetoHasta]
-                + mochila(capacidadMochila - pesos[objetoHasta], pesos, valores, objetoHasta - 1);
-        int valorNoDeUsarlo = mochila(capacidadMochila, pesos, valores, objetoHasta - 1);
-        return max(valorDeUsarlo, valorNoDeUsarlo);
+        // si no entra el objeto fin, no lo considero
+        if (pesos[fin] > capacidad) {
+            return mochila01(capacidad, fin - 1, valores, pesos);
+        }
+
+        int valorDeLaMochilaUsandoElObjeto = valores[fin] + mochila01(capacidad - pesos[fin], fin - 1, valores, pesos);
+
+        int valorDeLaMochilaDeNOusarElObjeto = mochila01(capacidad, fin - 1, valores, pesos);            
+        return max(valorDeLaMochilaUsandoElObjeto, valorDeLaMochilaDeNOusarElObjeto);
     }
+
+    /*
+        int valores[] = new int[] { 120, 200};
+        int pesos[] = new int[] { 20, 10 };
+        int capacidadMochila = 50;
+    */
+    // m (50, 1) = max(200+m(40,0), m(50,0)) = max(200+120, 120) = 320
+        // m(40, 0) = max(120+m(20,-1), m(50,-1)) = 120
+            // m(20,-1) = 0
+            // m(50,-1) = 0
+        // m(50, 0) = max(120+m(30,-1), m(50, -1)) = 120
+            // 
+
+            // 2^n
+            // 0 1
+            // 00 01 10 11
+            // 000 001 010 011 100 101 110 111
+
 
     // Driver program to test
     // above function
@@ -33,7 +51,8 @@ class Mochila01 {
         int pesos[] = new int[] { 10, 20, 30 };
         int capacidadMochila = 50;
         int cantidadDeObjetos = valores.length;
-        System.out.println(mochila(capacidadMochila, pesos, valores, cantidadDeObjetos - 1));
+
+        System.out.println(mochila01(capacidadMochila, cantidadDeObjetos - 1, valores, pesos));
     }
 }
 // fuente: https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/
