@@ -1,5 +1,5 @@
 import java.util.*;
-class ActivitySelection 
+class Actividades 
 { 
     // pre: se asume que estan ordenadas por orden de finalizacion
     public static void maxActiviades(int inicio[], int finalizacion[]) 
@@ -27,7 +27,7 @@ class ActivitySelection
        
     public static void main(String[] args) 
     { 
-        int inicio[] =  {1, 3, 0, 5, 8, 5}; 
+        int inicio[] =        {1, 3, 0, 5, 8, 5}; 
         int finalizacion[] =  {2, 4, 6, 7, 9, 9};
             
         maxActiviades(inicio, finalizacion); 
