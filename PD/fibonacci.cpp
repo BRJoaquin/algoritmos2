@@ -34,7 +34,8 @@ int fiboBottomUPV2(int n)
     int antAnt = 1;
     int ant = 1;
     int ret;
-    for (int i = 2; i <= n; i++) {
+    for (int i = 2; i <= n; i++)
+    {
         ret = ant + antAnt;
         antAnt = ant;
         ant = ret;
@@ -46,9 +47,9 @@ int fiboTopDownAux(int n, int *res)
 {
     if (n <= 1)
         return 1;
-    if (res[n] == 0) {
-        res[n] = fiboTopDownAux(n - 1, res) 
-                + fiboTopDownAux(n - 2, res);
+    if (res[n] == 0)
+    {
+        res[n] = fiboTopDownAux(n - 1, res) + fiboTopDownAux(n - 2, res);
     }
     return res[n];
 }
