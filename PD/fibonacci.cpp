@@ -14,14 +14,14 @@ f(n) = f(n-1) + f(n-2)
 int fiboRec(int n)
 {
     if (n <= 1)
-        return n;
+        return 1;
     return fiboRec(n - 1) + fiboRec(n - 2);
 }
 
 int fiboBottomUP(int n)
 {
     int *res = new int[n + 1];
-    res[0] = 0;
+    res[0] = 1;
     res[1] = 1;
     for (int i = 2; i <= n; i++)
         res[i] = res[i - 1] + res[i - 2];
@@ -31,7 +31,7 @@ int fiboBottomUP(int n)
 // Nos podemos ahorrar el array
 int fiboBottomUPV2(int n)
 {
-    int antAnt = 0;
+    int antAnt = 1;
     int ant = 1;
     int ret;
     for (int i = 2; i <= n; i++) {
@@ -45,7 +45,7 @@ int fiboBottomUPV2(int n)
 int fiboTopDownAux(int n, int *res)
 {
     if (n <= 1)
-        return n;
+        return 1;
     if (res[n] == 0) {
         res[n] = fiboTopDownAux(n - 1, res) 
                 + fiboTopDownAux(n - 2, res);
