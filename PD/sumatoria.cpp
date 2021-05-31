@@ -14,7 +14,7 @@ int sum(int n) {
     return n + sum(n-1);
 }
 
-int sumPD(int n) {
+int sumV2(int n) {
     int * res = new int[n+1];
     res[1] = 1;
     for (int i = 2; i <= n; i++)
@@ -28,6 +28,6 @@ int main ()
     int N;
     cin >> N;
     cout << sum(N) << endl;
-    cout << sumPD(N) << endl;
+    cout << sumV2(N) << endl;
     return 0;
 }
