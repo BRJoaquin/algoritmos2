@@ -7,6 +7,8 @@ class Mochila01 {
         return (a > b) ? a : b;
     }
 
+    // TODO
+
     public static int generarRandom(int max, int min) {
         return (int) (Math.random() * (max - min + 1)) + min;
     }
