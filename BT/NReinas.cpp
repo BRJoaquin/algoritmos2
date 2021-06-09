@@ -18,22 +18,8 @@ bool esSeguraDeColocar(int colCandidata, int filaCandidata, int **solucionCandid
             return false;
         }
     }
-    // ↘
-    for (int fila = filaCandidata, columna = colCandidata; coordenadaValida(fila, columna) ; fila++,columna++)
-    {
-        if(solucionCandidata[fila][columna] == 1) {
-            return false;
-        }
-    }
     // ↙
     for (int fila = filaCandidata, columna = colCandidata; coordenadaValida(fila, columna) ; fila++,columna--)
-    {
-        if(solucionCandidata[fila][columna] == 1) {
-            return false;
-        }
-    }
-    // ↗
-    for (int fila = filaCandidata, columna = colCandidata; coordenadaValida(fila, columna) ; fila--,columna++)
     {
         if(solucionCandidata[fila][columna] == 1) {
             return false;
