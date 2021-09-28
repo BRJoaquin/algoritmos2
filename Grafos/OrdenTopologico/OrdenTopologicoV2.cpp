@@ -218,6 +218,10 @@ void ordenacionTopologica(Grafo *g, int V)
             adyacentesAV = adyacentesAV->sig;
         }
     }
+
+    if(cont < V) {
+        cout << "Hay ciclo!" << endl;
+    }
 }
 
 int main()
