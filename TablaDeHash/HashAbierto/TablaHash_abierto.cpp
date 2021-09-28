@@ -90,7 +90,7 @@ private:
         {
             if (ptr->clave == unaClave)
             {
-                NodoLista * aEliminar = ptr;
+                NodoLista *aEliminar = ptr;
                 ptr = ptr->sig;
                 delete aEliminar;
             }
@@ -152,7 +152,8 @@ public:
         return this->existeRecursivo(unaClave, arrList[pos]);
     }
 
-    void eliminar(string unaClave) {
+    void eliminar(string unaClave)
+    {
         int pos = abs(this->fnHash(unaClave)) % this->tamanio;
         this->eliminarRecursivo(unaClave, arrList[pos]);
     }
@@ -221,6 +222,7 @@ int main()
         cout << endl;
 
         cin >> opc;
+        // Ingresar dato
         if (opc == 1)
         {
             string nombre;
@@ -231,10 +233,12 @@ int main()
             cin >> telefono;
             tabla->insertar(nombre, telefono);
         }
+        // Imprimir tabla
         else if (opc == 2)
         {
             tabla->imprimir();
         }
+        // Generar datos de entrada
         else if (opc == 3)
         {
             int cantidadDeDatos;
@@ -251,22 +255,28 @@ int main()
                 tabla->insertar(nombreRandom, numeroRandom);
             }
         }
+        // Rehash
         else if (opc == 4)
         {
             tabla->rehash();
         }
+        // Existe clave
         else if (opc == 5)
         {
             string consulta;
             cout << "Ingrese la clave que quiere saber si existe" << endl;
             cin >> consulta;
             bool existe = tabla->existe(consulta);
-            if(existe) {
+            if (existe)
+            {
                 cout << "Su clave existe" << endl;
-            }else {
+            }
+            else
+            {
                 cout << "Su clave no existe" << endl;
             }
         }
+        // Recuperar valor
         else if (opc == 6)
         {
             string consulta;
@@ -276,13 +286,16 @@ int main()
             if (existe)
             {
                 int valor = tabla->recuperar(consulta);
-                cout << "El valor de la clave es " << valor << endl; 
+                cout << "El valor de la clave es " << valor << endl;
             }
             else
             {
                 cout << "Su clave no existe" << endl;
             }
-        }else if(opc == 7) {
+        }
+        //  Eliminar clave
+        else if (opc == 7)
+        {
             string consulta;
             cout << "Ingrese la clave que quiere eliminar" << endl;
             cin >> consulta;

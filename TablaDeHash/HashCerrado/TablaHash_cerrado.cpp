@@ -92,6 +92,7 @@ private:
         int pos = hashValue % arrSize;
         int i = 1;
         int inserte = false;
+        int hashValue2 = this->fnHash2(unaClave);
 
         while (!inserte)
         {
@@ -107,14 +108,13 @@ private:
                 inserte = true;
             }
             // Lineal
-            pos = (hashValue + i) % arrSize;
+            // pos = (hashValue + i) % arrSize;
 
             // // Cuadratico
             // pos = (int)(hashValue + pow(i, 2)) % arrSize;
 
             // Doble Hash
-            // int hashValue2 = this->fnHash2(unaClave);
-            // pos = (int)(hashValue + i*hashValue2) % arrSize;
+            pos = (int)(hashValue + i*hashValue2) % arrSize;
 
             i++;
         }
