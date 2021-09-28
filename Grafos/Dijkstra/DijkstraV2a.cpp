@@ -286,20 +286,6 @@ int *initVengo(int V)
     return ret;
 }
 
-int verticeDesconocidoDeMenorCosto(bool *visitados, int *costos, int V)
-{
-    int menor = -1;
-    int costoMenorHastaElMomento = INF;
-    for (int i = 1; i <= V; i++)
-    {
-        if (!visitados[i] && costos[i] < costoMenorHastaElMomento)
-        {
-            menor = i;
-            costoMenorHastaElMomento = costos[i];
-        }
-    }
-    return menor;
-}
 
 void imprimirCamino(int destino, int *vengo)
 {
