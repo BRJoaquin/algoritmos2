@@ -237,7 +237,7 @@ int main()
     g->aniadirArista(1,2,2);
     g->aniadirArista(6,7,1);
     g->aniadirArista(4,2,3);
-    g->aniadirArista(4,5,2);
+    g->aniadirArista(4,5,7);
     g->aniadirArista(4,7,4);
     g->aniadirArista(2,5,10);
     g->aniadirArista(7,5,6);

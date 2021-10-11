@@ -48,7 +48,7 @@ private:
 
     bool *initVisitados()
     {
-        bool *ret = new bool[V + 1];
+        bool *ret = new bool[V + 1]();
         for (int i = 1; i <= V; i++)
         {
             ret[i] = false;
@@ -189,11 +189,11 @@ int main()
     g->aniadirArista(1, 2, 2);
     g->aniadirArista(6, 7, 1);
     g->aniadirArista(4, 2, 3);
-    g->aniadirArista(4, 5, 2);
+    g->aniadirArista(4, 5, 7);
     g->aniadirArista(4, 7, 4);
     g->aniadirArista(2, 5, 10);
     g->aniadirArista(7, 5, 6);
 
-    g->prim(1);
+    g->prim(7);
     return 0;
 }
