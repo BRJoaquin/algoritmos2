@@ -43,6 +43,14 @@ int fiboBottomUPV2(int n)
     return ret;
 }
 
+int fibTailRec(int n, int a , int b) {
+    if (n == 0)
+        return a;
+    if (n == 1)
+        return b;
+    return fibTailRec(n - 1, b, a + b);
+}
+
 int fiboTopDownAux(int n, int *res)
 {
     if (n <= 1)
@@ -59,6 +67,9 @@ int fiboTopDown(int n)
     int *res = new int[n + 1]();
     return fiboTopDownAux(n, res);
 }
+
+
+
 
 int main()
 {

@@ -15,7 +15,7 @@ int problemaDelCambio(int resto)
     int *res = new int[resto + 1];
     int monedas[] = {1, 2, 5, 10, 50};
     res[0] = 0;
-    for (int i = 1; i < resto + 1; i++)
+    for (int i = 1; i <= resto; i++)
     {
         int menor;
         menor = res[i - 1]; // uso la moneda de 1
