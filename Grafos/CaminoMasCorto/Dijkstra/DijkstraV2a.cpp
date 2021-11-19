@@ -31,6 +31,9 @@ private:
 
     void intercambiar(int x, int y)
     {
+        pos[elementos[0][x]] = y;
+        pos[elementos[0][y]] = x;
+
         int eleAux = elementos[0][x];
         int prioridadAux = elementos[1][x];
         // intercambio los elementos
@@ -39,10 +42,6 @@ private:
         // intercambio las prioridades
         elementos[1][x] = elementos[1][y];
         elementos[1][y] = prioridadAux;
-
-        int posAux = pos[x];
-        pos[x] = pos[y];
-        pos[y] = posAux;
     }
 
     void flotar(int posNodo)
