@@ -101,14 +101,6 @@ private:
         }
     }
 
-public:
-    TablaHashAbierta_Agenda(int tamaniInicial)
-    {
-        this->tamanio = tamaniInicial;
-        this->cantidadDeElementos = 0;
-        arrList = new Lista[this->tamanio]();
-    }
-
     int fnHash(string clave)
     {
         // OPC 1
@@ -130,6 +122,16 @@ public:
         }
         return h;
     }
+
+public:
+    TablaHashAbierta_Agenda(int tamaniInicial)
+    {
+        this->tamanio = tamaniInicial;
+        this->cantidadDeElementos = 0;
+        arrList = new Lista[this->tamanio]();
+    }
+
+    
 
     void insertar(string unaClave, int unValor)
     {
