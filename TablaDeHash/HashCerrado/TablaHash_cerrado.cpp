@@ -71,7 +71,7 @@ private:
     void rehash()
     {
         int nuevoTamanio = this->siguientePrimo(this->tamanio * 2);
-        Asociacion **nuevoArray = new Asociacion *[nuevoTamanio];
+        Asociacion **nuevoArray = new Asociacion *[nuevoTamanio]();
 
         for (int i = 0; i < this->tamanio; i++)
         {
@@ -125,7 +125,7 @@ public:
     {
         this->tamanio = this->siguientePrimo(tamaniInicial);
         this->cantidadDeElementos = 0;
-        array = new Asociacion *[this->tamanio];
+        array = new Asociacion *[this->tamanio]();
     }
 
     void insertar(string unaClave, int unValor)
