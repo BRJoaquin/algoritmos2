@@ -7,9 +7,9 @@ class Min_Heap
 {
 private:
     int *arr;
-    int posTope;
+    int primerPosLibre;
     int capacidad;
-
+    
     int izq(int pos)
     {
         return pos * 2;
@@ -52,7 +52,7 @@ private:
         int posHijoDer = der(pos);
 
         // si tengo mis dos hijos
-        if (posHijoIzq < posTope && posHijoDer < posTope)
+        if (posHijoDer < primerPosLibre)
         {
             int posHijoMenor = arr[posHijoIzq] < arr[posHijoDer] ? posHijoIzq : posHijoDer;
             if (arr[pos] > arr[posHijoMenor])
@@ -62,7 +62,7 @@ private:
             }
             // si tengo solo hijo izquierdo
         }
-        else if (posHijoIzq < posTope)
+        else if (posHijoIzq < primerPosLibre)
         {
             if (arr[pos] > arr[posHijoIzq])
             {
@@ -76,7 +76,7 @@ public:
     Min_Heap(int unaCapacidad)
     {
         this->arr = new int[unaCapacidad + 1]();
-        this->posTope = 1;
+        this->primerPosLibre = 1;
         this->capacidad = unaCapacidad;
     }
 
@@ -89,36 +89,34 @@ public:
     void eliminarTope()
     {
         assert(!estaVacio());
-        this->arr[1] = this->arr[posTope - 1];
-        this->posTope--;
+        // sutituimos la raiz con el ultimo elemento
+        this->arr[1] = this->arr[primerPosLibre - 1];
+        this->primerPosLibre--;
         hundir(1);
     }
 
     void insertar(int el)
     {
         assert(!estaLleno());
-        this->arr[posTope++] = el;
-        flotar(posTope - 1);
+        this->arr[primerPosLibre++] = el;
+        flotar(primerPosLibre - 1);
     }
 
     bool estaLleno()
     {
-        return this->posTope > this->capacidad;
+        return this->primerPosLibre > this->capacidad;
     }
 
     bool estaVacio()
     {
-        return this->posTope == 1;
+        return this->primerPosLibre == 1;
     }
 };
 
 int main()
 {
-    Min_Heap *heap = new Min_Heap(14);
-    if (heap->estaVacio())
-    {
-        cout << "Esta vacio" << endl;
-    }
+    Min_Heap *heap = new Min_Heap(100);
+    
     heap->insertar(22);
     heap->insertar(10);
     heap->insertar(100);
