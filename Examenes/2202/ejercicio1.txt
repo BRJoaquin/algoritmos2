@@ -1,0 +1,23 @@
+1) Los AVL presentan la ventaja de cumplir con el principio de balanceo de árboles.
+Por lo cual podemos asegurar un orden logaritmico de busqueda, insersion y eliminacion.
+Se podria decir que tiene la desventaja en cuanto a la implementacion, ya que 
+mantener una estructura de datos balanceada es una tarea dificil en comparacion
+a una implementacion de un arbol binario de busuqeda.
+
+2) 
+Caso / Rotacion:
+izquierda-izquierda / rotacion derecha
+derecha-derecha / rotacion izquierda
+izquierda-derecha / rotacion izquierda-derecha (rotacion doble)
+derecha-izquierda / rotacion derecha-izquierda (rotacion doble)
+
+ejemplo:
+insertar 1 -> 5 -> 10 / rotacion izquierda.
+
+3)
+Insertar en un heap tiene O(1)cp mientras que en el AVL es O(LgN).
+Obtener el max/min en un heap es O(1) mientras que en el AVL es O(LgN).
+
+4) 
+Porque toma las decisiones paso a paso (cuando elige el vertice menor costo no visitado),
+y una vez que lo toma/procesa ya queda fijado o decidido cual es su costo, no se vuelve a procesar.
