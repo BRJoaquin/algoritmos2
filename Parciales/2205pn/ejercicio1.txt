@@ -1,0 +1,43 @@
+A) No existe una diferencia a nivel conceptual. En ambos casos se trata
+de aumentar el tamaño de buckets con el objetivo de reducir el factor de carga.
+Los hash abiertos y cerrado solo se diferencian en como se manejan las colisiones.
+
+B)
+i) lineal: define el siguiente intento sumando en 1 la posicion actual.
+Para un intento i, en un array de n elementos, se puede intenta el bucket:
+posI = (FnHash(clave) + i) % n
+
+ii) cuadratico: a diferencia del anterior suma a la funcion de hash el cuadrado del nro de intento.
+Para un intento i, en un array de n elementos, se puede intenta el bucket:
+posI = (FnHash(clave) + i^2) % n
+
+iii) doble hash: se introduce una segunda funcion de hash que se utilizar para definir los incrementos 
+en cada intento.
+Para un intento i, en un array de n elementos, se puede intenta el bucket:
+posI = (FnHash(clave) + i*FnHash2(clave)) % n
+
+C) El TAD tabla es un tipo abstracto de datos que define una relacion unica entre claves y valores.
+Se ultiza la clave como un identificador unico. Y dada una clave puede conseguirse el valor asociado.
+
+La tabla de hash es una estructura que permie almacenar y recuperar datos de manera eficiente, llegando 
+al O(1) como caso promedio.
+
+Ambos estan relacionados ya que es de atractivo (debido a sus ordenes) de que se implemente un Tad tabla
+con una tabla de hash.
+
+D) Dado que un heap cumple con la propiedad estrcutural se nos permite usar un array en vez de nodos.
+Los atractivos de usar una array en vez de nodos es que permite una navegacion hacia los hijos de igual manera
+que su contraposicion. Por otro lado, nos permie de forma nativa acceder al padre de cualquier nodo sin 
+ninguna modificacion.
+Pero una de los atractivos mas grande es que podemos accedes a posiciones en O(1)pc.
+Por otro lado, tenemos la contra que tenemos que definir el tamano del heap una vez instanciado.
+
+E) Floyd de forma nativa me permite saber el camino mas corto entre todo par de vertices, por otro lado
+Dijkstra que puedo saber el camino mas corto entre un vertice y todos los demas.
+Claramente, aplicar V veces Dijkstra obtendriamos el mismo resultado pero no en todos los casos es aplicable.
+
+Cuando usar Floyd?
+- Cuando el grafo tiene aristas negativas ya que es una precondicion de usar Dijkstra.
+- Tambien cuando el grafo es denso, Floyd es una alternativa tentativa.
+Cuando usar Dijkstra?
+- Cuando el grafo es disperso y no tiene aristas negativas.
