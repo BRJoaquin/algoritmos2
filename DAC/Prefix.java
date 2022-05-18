@@ -28,8 +28,12 @@ public class Prefix {
   }
 
   public static void main(String[] args) {
-    String[] prueba = { "ABC", "AB", "ABB", "ABE" };
+    String[] prueba = { "ABC", "AB", "ABB", "ABE"};
     String prefixComun = prefix(prueba, 0, prueba.length - 1);
-    System.out.println(prefixComun);
+    if(prefixComun.equals("")) {
+      System.out.println("No hay prefijo comun");
+    } else {
+      System.out.println("Prefijo comun: " + prefixComun);
+    }
   }
 }
