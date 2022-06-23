@@ -19,6 +19,7 @@ int f(unsigned int a, unsigned int b)
 // 
 int f_memo(unsigned int a, unsigned int b, int **calculados)
 {
+
     if (a == 0 || b == 0)
     {
         return 1;
@@ -43,7 +44,7 @@ int main()
     cout << f(a, b) << endl;
     // necesito el maximo debido a que se nos puede ir de rango
     int max = a > b ? a : b;
-    int **calculados = new int *[max + 1];
+    int **calculados = new int *[a + 1];
     for (int i = 0; i < max + 1; i++)
     {
         calculados[i] = new int[max + 1]();
@@ -52,6 +53,6 @@ int main()
             calculados[i][j] = -1;
         }
     }
-    cout << f_memo(5, 8, calculados) << endl;
+    cout << f_memo(a, b, calculados) << endl;
     return 0;
 }
