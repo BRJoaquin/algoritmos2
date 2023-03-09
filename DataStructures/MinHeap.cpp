@@ -8,6 +8,7 @@ private:
     T *arr;
     int posTope;
     int capacidad;
+    int (*funcionComparadora)(T, T);
 
     int izq(int pos)
     {
@@ -37,7 +38,7 @@ private:
         if (pos > 1)
         {
             int posPadre = padre(pos);
-            if (this->arr[posPadre] > this->arr[pos])
+            if (funcionComparadora(this->arr[posPadre], this->arr[pos]) > 0)
             {
                 intercambiar(posPadre, pos);
                 flotar(posPadre);
@@ -53,17 +54,18 @@ private:
         // si tengo mis dos hijos
         if (posHijoIzq < posTope && posHijoDer < posTope)
         {
-            int posHijoMenor = arr[posHijoIzq] < arr[posHijoDer] ? posHijoIzq : posHijoDer;
-            if (arr[pos] > arr[posHijoMenor])
+            int posHijoMenor = funcionComparadora(arr[posHijoIzq], arr[posHijoDer]) < 0 ? posHijoIzq : posHijoDer;
+            if (funcionComparadora(arr[pos], arr[posHijoMenor]) > 0)
             {
                 intercambiar(pos, posHijoMenor);
                 hundir(posHijoMenor);
             }
-            // si tengo solo hijo izquierdo
+            
         }
+        // si tengo solo hijo izquierdo
         else if (posHijoIzq < posTope)
         {
-            if (arr[pos] > arr[posHijoIzq])
+            if (funcionComparadora(arr[pos], arr[posHijoIzq]) > 0)
             {
                 intercambiar(pos, posHijoIzq);
                 hundir(posHijoIzq);
@@ -72,11 +74,13 @@ private:
     }
 
 public:
-    MinHeap(int unaCapacidad)
+    MinHeap(int unaCapacidad, int (*unaFuncionComparadora)(T, T))
     {
+
         this->arr = new T[unaCapacidad + 1]();
         this->posTope = 1;
         this->capacidad = unaCapacidad;
+        this->funcionComparadora = unaFuncionComparadora;
     }
 
     T tope()
