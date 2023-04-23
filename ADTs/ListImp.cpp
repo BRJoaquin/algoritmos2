@@ -8,6 +8,7 @@ template <class T>
 class ListImp : public List<T>
 {
 private:
+    // define a inner class (Node) to be used by the double linked list
     class Node
     {
     public:
@@ -17,6 +18,7 @@ private:
         Node(T element, Node *next, Node *previous) : element(element), next(next), previous(previous) {}
     };
 
+    // implement an iterator for the list
     class ListIterator : public Iterator<T>
     {
     private:
@@ -95,6 +97,7 @@ public:
         Node *current = head;
         while (current != NULL)
         {
+            // note: that the elment should implement == operator
             if (current->element == element)
             {
                 if (current == head)

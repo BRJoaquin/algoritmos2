@@ -115,7 +115,6 @@ void HashTableTest() {
         cout << tuple.getFirst() << " " << tuple.getSecond() << endl;
     }
 
-
     cout << "HashTable test finished" << endl << endl;
 }
 

@@ -1,7 +1,12 @@
 #ifndef HASH_TABLE_OPENING_ADDRESSING
 #define HASH_TABLE_OPENING_ADDRESSING
 
+#include "../ADTs/List.h"
+#include "../ADTs/ListImp.cpp"
+#include "../Helpers/Tuple.cpp"
 #include "./HashTable.h"
+#include <cmath>
+
 
 /**
  * Defines the different open addressing types.
@@ -138,9 +143,9 @@ public:
             else
             {
                 // if the key is already in the table, update the value
-                if (compareFunction(table[index]->key, key))
+                if (compareFunction(table[index]->getFirst(), key))
                 {
-                    table[index]->value = value;
+                    table[index]->setSecond(value);
                     inserted = true;
                 }
                 // in other case try in the next position
@@ -164,12 +169,13 @@ public:
     {
         assert(this->exists(key));
         int index = calculateIndex(key, 0);
+        int tryCount = 1;
         bool found = false;
         while (!found)
         {
-            if (!isDeleted[index] && compareFunction(table[index]->key, key))
+            if (!isDeleted[index] && compareFunction(table[index]->getFirst(), key))
             {
-                return table[index]->value;
+                return table[index]->getSecond();
             }
             else
             {
@@ -188,6 +194,7 @@ public:
     {
         int index = calculateIndex(key, 0);
         bool found = false;
+        int tryCount;
         while (!found)
         {
             if (isDeleted[index])
@@ -202,7 +209,7 @@ public:
                 }
                 else
                 {
-                    if (compareFunction(table[index]->key, key))
+                    if (compareFunction(table[index]->getFirst(), key))
                     {
                         return true;
                     }
@@ -214,6 +221,7 @@ public:
             }
             tryCount++;
         }
+        return false;
     }
 
     /**
@@ -225,10 +233,11 @@ public:
     {
         assert(this->exists(key));
         int index = calculateIndex(key, 0);
+        int tryCount = 1;
         bool found = false;
         while (!found)
         {
-            if (!isDeleted[index] && compareFunction(table[index]->key, key))
+            if (!isDeleted[index] && compareFunction(table[index]->getFirst(), key))
             {
                 isDeleted[index] = true;
                 table[index] = NULL;
@@ -263,12 +272,12 @@ public:
      */
     Iterator<Tuple<K, V>> *getIterator()
     {
-        List<Tuple<K, V>> *list = new List<Tuple<K, V>>();
+        List<Tuple<K, V>> *list = new ListImp<Tuple<K, V>>();
         for (int i = 0; i < buckets; i++)
         {
-            if (!isDeleted[index] && table[i] != NULL)
+            if (!isDeleted[i] && table[i] != NULL)
             {
-                list->add(table[i]);
+                list->insert(*table[i]);
             }
         }
         return list->getIterator();

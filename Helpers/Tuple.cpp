@@ -15,6 +15,10 @@ public:
 
     B getSecond() { return second; }
 
+    void setFirst(A first) { this->first = first; }
+
+    void setSecond(B second) { this->second = second; }
+
     bool operator==(const Tuple<A, B> &other) const
     {
         return (first == other.first && second == other.second);

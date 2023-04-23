@@ -6,7 +6,7 @@
 #include "../ADTs/ListImp.cpp"
 
 /**
- * @brief A hash table implmentation using separate chaining.
+ * @brief A hash table implementation using separate chaining.
  *
  * @tparam K The key type.
  * @tparam V The value type.
