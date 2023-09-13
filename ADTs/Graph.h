@@ -25,7 +25,7 @@ struct Edge
 class Graph
 {
 private:
-    void DFS(int from, int step, void (*each)(int, int), bool *visited)
+    void DFS(int from, int step, std::function<void(int, int)> each, bool *visited)
     {
         visited[from] = true;
         each(from, step);
@@ -67,7 +67,7 @@ public:
     bool isDirected() { return directed; }
     bool isWeighted() { return weighted; }
 
-    void BFS(int from, void (*each)(int, int))
+    void BFS(int from, std::function<void(int, int)> each)
     {
         bool *queued = new bool[V + 1]();
         for (int i = 0; i <= V; i++)
@@ -77,7 +77,6 @@ public:
         Queue<Tuple<int, int>> *queue = new QueueImp<Tuple<int, int>>();
         queue->enqueue(Tuple<int, int>(from, 0));
         queued[from] = true;
-        each(from, 0);
         while (!queue->isEmpty())
         {
             Tuple<int, int> node = queue->dequeue();
@@ -100,7 +99,7 @@ public:
         delete[] queued;
     }
 
-    void DFS(int from, void (*each)(int, int))
+    void DFS(int from, std::function<void(int, int)> each)
     {
         bool *visited = new bool[V + 1]();
         for (int i = 0; i <= V; i++)
