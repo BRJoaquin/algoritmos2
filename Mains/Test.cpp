@@ -2,128 +2,124 @@
 #include <string>
 #include <iostream>
 #include <limits>
-
-#include "../Helpers/Iterator.h"
-
-#include "../ADTs/List.h"
-#include "../ADTs/ListImp.cpp"
-
-#include "../ADTs/Queue.h"
-#include "../ADTs/QueueImp.cpp"
-
-#include "../DataStructures/BST.cpp"
-
-#include "../DataStructures/AVL.cpp"
-
-#include "../DataStructures/HashTable.h"
-#include "../DataStructures/HashTableSeparateChaining.cpp"
-
+#include "../ADTs/Graph.h"
+#include "../ADTs/GraphListImp.cpp"
+#include "../DataStructures/MinHeap.cpp"
+#include "../DataStructures/DisjointSet.cpp"
 using namespace std;
 
-void listTest() {
-    cout << "List test" << endl;
-    List<int> *list = new ListImp<int>();
-    for (int i = 0; i < 5; i++)
+int **initMatrizCosto(Graph *g)
+{
+    int **m = new int *[g->getV() + 1]();
+    for (int i = 1; i <= g->getV(); i++)
     {
-        list->insert(i);
+        m[i] = new int[g->getV() + 1]();
+        for (int j = 0; j <= g->getV(); j++)
+        {
+            m[i][j] = INT_MAX;
+        }
     }
-    Iterator<int> *iterator = list->getIterator();
-    while (iterator->hasNext())
+
+    for (int origen = 1; origen <= g->getV(); origen++)
     {
-        cout << iterator->next() << endl;
+        Iterator<Edge> *it = g->adjacents(origen);
+        while (it->hasNext())
+        {
+            Edge e = it->next();
+            int destino = e.to;
+            int peso = e.weight;
+            if (origen != destino)
+            {
+                m[origen][destino] = peso;
+            }
+        }
     }
-    delete iterator;
-    delete list;
-    cout << "List test finished" << endl << endl;
+
+    return m;
 }
 
-void queueTest() {
-    cout << "Queue test" << endl;
-    Queue<int> *queue = new QueueImp<int>();
-    for (int i = 0; i < 5; i++)
+void floyd(Graph *g)
+{
+    int V = g->getV();
+    int **matrizCosto = initMatrizCosto(g);
+
+    for (int k = 1; k <= V; k++)
     {
-        queue->enqueue(i);
-    }
-    while (!queue->isEmpty())
-    {
-        cout << queue->dequeue() << endl;
-    }
-    delete queue;
-    cout << "Queue test finished" << endl << endl;
-}
-
-void print(int element) {
-    cout << element << endl;
-}
-
-void BSTTest() {
-    cout << "BST test" << endl;
-    BST<int> *bst = new BST<int>();
-    for (int i = 0; i < 5; i++)
-    {
-        bst->insert(i);
-    }
-    bst->inOrder(print);
-    delete bst;
-    cout << "BST test finished" << endl << endl;
-}
-
-void AVLTest() {
-    cout << "AVL test" << endl;
-    AVL<int> *avl = new AVL<int>();
-    for (int i = 0; i < 5; i++)
-    {
-        avl->insert(i);
-    }
-    avl->inOrder(print);
-    delete avl;
-    cout << "AVL test finished" << endl << endl;
-}
-
-int hashFn(string key) {
-    int hash = 0;
-    for (int i = 0; i < key.length(); i++)
-    {
-        hash += key[i];
-    }
-    return hash;
-}
-
-bool equalStrings(string key1, string key2) {
-    return key1 == key2;
-}
-
-void HashTableTest() {
-    cout << "HashTable test" << endl;
-    HashTable<string, int> *hashTable = new HashTableSeparateChaining<string, int>(10, hashFn, equalStrings);
-    hashTable->insert("a", 1);
-    hashTable->insert("b", 2);
-    hashTable->insert("c", 3);
-    hashTable->insert("d", 4);
-
-
-    cout << hashTable->get("a") << endl;
-    cout << hashTable->get("b") << endl;
-    cout << hashTable->get("c") << endl;
-
-    hashTable->remove("a");
-
-    Iterator<Tuple<string, int>> *it = hashTable->getIterator();
-    while (it->hasNext())
-    {
-        Tuple<string, int> tuple = it->next();
-        cout << tuple.getFirst() << " " << tuple.getSecond() << endl;
+        for (int i = 1; i <= V; i++)
+        {
+            for (int j = 1; j <= V; j++)
+            {
+                if (matrizCosto[i][k] != INT_MAX && matrizCosto[k][j] != INT_MAX  
+                    && matrizCosto[i][j] > matrizCosto[i][k] + matrizCosto[k][j] ) {
+                    matrizCosto[i][j] = matrizCosto[i][k] + matrizCosto[k][j];
+                }
+            }
+        }
     }
 
-    cout << "HashTable test finished" << endl << endl;
+    cout << "Costo del 3 al 1:" << matrizCosto[3][1] << endl;
+}
+
+int compararEdge(Edge e1, Edge e2)
+{
+    return e1.weight - e2.weight;
+}
+
+void cargarAristas(Graph *g, MinHeap<Edge> *heap)
+{
+    for (int origen = 1; origen <= g->getV(); origen++)
+    {
+        Iterator<Edge> *it = g->adjacents(origen);
+        while (it->hasNext())
+        {
+            Edge e = it->next();
+            int destino = e.to;
+            int peso = e.weight;
+            if (origen != destino)
+            {
+                heap->insertar(e);
+            }
+        }
+    }
+}
+
+void kruskal(Graph *g) {
+    int V = g->getV();
+    int aristasAceptadas = 0;
+    MinHeap<Edge> *heap = new MinHeap<Edge>(V*V, compararEdge);
+    cargarAristas(g, heap);
+
+    DisjointSet *disjointSet = new DisjointSet(V);
+    int total = 0;
+    while (!heap->estaVacio() || aristasAceptadas < V - 1) {
+        Edge e = heap->tope();
+        heap->eliminarTope();
+        int origen = e.from;
+        int destino = e.to;
+        int peso = e.weight;
+        if (disjointSet->find(origen) != disjointSet->find(destino)) {
+            disjointSet->merge(origen, destino);
+            aristasAceptadas++;
+            total += peso;
+            cout << "arista aceptada: " << origen << " " << destino << " " << peso << endl;
+        }
+    }
+
+    cout << "Costo total: " << total << endl;
 }
 
 int main()
 {
-    listTest();
-    queueTest();
-    BSTTest();
-    AVLTest();
-    HashTableTest();
+    Graph *graph = new GraphListImp(5, false, true);
+    graph->addEdge(1, 2, 10);
+    graph->addEdge(1, 4, 1);
+    graph->addEdge(2, 4, 5);
+    graph->addEdge(2, 3, 2);
+    graph->addEdge(4, 3, 12);
+    graph->addEdge(3, 5, 1);
+    graph->addEdge(4, 5, -4);
+
+    // floyd(graph);
+    kruskal(graph);
     return 0;
 }
