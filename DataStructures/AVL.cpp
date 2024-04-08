@@ -2,7 +2,6 @@
 #define AVL_TREE
 
 // based on: https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
-
 template <class T>
 class AVL
 {
@@ -32,48 +31,48 @@ private:
 
     // A utility function to right
     // rotate subtree rooted with y
-    AVLNode *rightRotate(AVLNode *y)
+    AVLNode *rightRotate(AVLNode *B)
     {
-        AVLNode *x = y->left;
-        AVLNode *T2 = x->right;
+        AVLNode *A = B->left;
+        AVLNode *T2 = A->right;
 
         // Perform rotation
-        x->right = y;
-        y->left = T2;
+        A->right = B;
+        B->left = T2;
 
         // Update heights
-        y->height = std::max(height(y->left),
-                             height(y->right)) +
+        B->height = std::max(height(B->left),
+                             height(B->right)) +
                     1;
-        x->height = std::max(height(x->left),
-                             height(x->right)) +
+        A->height = std::max(height(A->left),
+                             height(A->right)) +
                     1;
 
         // Return new root
-        return x;
+        return A;
     }
 
     // A utility function to left
     // rotate subtree rooted with x
-    AVLNode *leftRotate(AVLNode *x)
+    AVLNode *leftRotate(AVLNode *A)
     {
-        AVLNode *y = x->right;
-        AVLNode *T2 = y->left;
+        AVLNode *B = A->right;
+        AVLNode *T2 = B->left;
 
         // Perform rotation
-        y->left = x;
-        x->right = T2;
+        B->left = A;
+        A->right = T2;
 
         // Update heights
-        x->height = std::max(height(x->left),
-                             height(x->right)) +
+        A->height = std::max(height(A->left),
+                             height(A->right)) +
                     1;
-        y->height = std::max(height(y->left),
-                             height(y->right)) +
+        B->height = std::max(height(B->left),
+                             height(B->right)) +
                     1;
 
         // Return new root
-        return y;
+        return B;
     }
 
     // Get Balance factor of node N
