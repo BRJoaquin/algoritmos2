@@ -249,6 +249,64 @@ void floyd(Grafo_LA *g)
     }
 }
 
+void warshall(Grafo_LA *g)
+{
+    bool **clausura = new bool *[g->getV()]();
+    for (int i = 0; i < g->getV(); i++)
+    {
+        clausura[i] = new bool[g->getV()]();
+        for (int j = 0; j < g->getV(); j++)
+        {
+            clausura[i][j] = false;
+        }
+        clausura[i][i] = true; // representa que puedo llegar a mi mismo con costo 0.
+    }
+    for (int i = 0; i < g->getV(); i++)
+    {
+        NodoLista<Arista> *ady = g->adyacentesA(i);
+        while (ady != NULL)
+        {
+            Arista a = ady->dato;
+            if (i != a.destino)
+            {
+                clausura[i][a.destino] = true;
+            }
+            ady = ady->sig;
+        }
+    }
+
+    int inf = INF;
+
+    for (int k = 0; k < g->getV(); k++)
+    {
+        for (int o = 0; o < g->getV(); o++)
+        {
+            for (int d = 0; d < g->getV(); d++)
+            {
+                clausura[o][d] = clausura[o][d] || clausura[o][k] && clausura[k][d];
+            }
+        }
+    }
+
+    for (int o = 0; o < g->getV(); o++)
+    {
+        for (int d = 0; d < g->getV(); d++)
+        {
+            if (o != d)
+            {
+                if (!clausura[o][d])
+                {
+                    cout << "No existe camino entre el origen " << o << " y el destino " << d << endl;
+                }
+                else
+                {
+                    cout << "Existe camino entre el origen " << o << " y el destino " << d << endl;
+                }
+            }
+        }
+    }
+}
+
 int main()
 {
     Grafo_LA *miGrafito = new Grafo_LA(5, true);
@@ -259,10 +317,16 @@ int main()
     miGrafito->agregarArista(2, 3, 2);
     miGrafito->agregarArista(3, 4, 8);
     miGrafito->agregarArista(3, 2, 0);
+    miGrafito->agregarArista(4, 1, 89340);
+
 
     // dijsktra(1, miGrafito);
 
-    floyd(miGrafito);
+    // floyd(miGrafito);
+
+    warshall(miGrafito);
+
+
 
     // int cantComponentesConexas = 0;
     // bool* visitados = new bool[miGrafito->getV()]();
