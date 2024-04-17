@@ -307,26 +307,91 @@ void warshall(Grafo_LA *g)
     }
 }
 
+void prim(int origen, Grafo_LA *g)
+{
+    int *costo = new int[g->getV()]();
+    int *vengo = new int[g->getV()]();
+    bool *visitado = new bool[g->getV()]();
+
+    for (int i = 0; i < g->getV(); i++)
+    {
+        costo[i] = INF;
+        vengo[i] = -1;
+        visitado[i] = false;
+    }
+
+    costo[origen] = 0;
+
+    for (int i = 0; i < g->getV(); i++)
+    {
+        // vertice a procesar: el de menor costo NO visitado
+        int v = -1;
+        int menorCosto = INF;
+        for (int j = 0; j < g->getV(); j++)
+        {
+            if (costo[j] < menorCosto && !visitado[j])
+            {
+                v = j;
+                menorCosto = costo[j];
+            }
+        }
+
+        // nos cubrimos por si el menor nodo no visitado no lo puedo alcanzar me voy
+        if (v == -1)
+            break;
+
+        visitado[v] = true;
+
+        NodoLista<Arista> *ady = g->adyacentesA(v);
+        while (ady != NULL)
+        {
+            Arista a = ady->dato;
+            int u = a.destino;
+            int w = a.peso;
+            if (!visitado[u] && costo[u] > w)
+            {
+                costo[u] = w;
+                vengo[u] = v;
+            }
+            ady = ady->sig;
+        }
+    }
+
+    int sum = 0;
+
+    for (int i = 0; i < g->getV(); i++)
+    {
+        if (visitado[i] && vengo[i] != -1)
+        {
+            cout << i << "--" << vengo[i] << " " << costo[i] << endl;
+            sum += costo[i];
+        }
+    }
+    std::cout << "Con un costo total de " << sum << std::endl;
+}
+
 int main()
 {
-    Grafo_LA *miGrafito = new Grafo_LA(5, true);
-    miGrafito->agregarArista(0, 4, 2);
-    miGrafito->agregarArista(1, 0, 2);
-    miGrafito->agregarArista(1, 3, -5);
-    miGrafito->agregarArista(1, 2, 1);
-    miGrafito->agregarArista(2, 3, 2);
-    miGrafito->agregarArista(3, 4, 8);
-    miGrafito->agregarArista(3, 2, 0);
-    miGrafito->agregarArista(4, 1, 89340);
-
+    Grafo_LA *miGrafito = new Grafo_LA(7, false);
+    miGrafito->agregarArista(0, 1, 2);
+    miGrafito->agregarArista(1, 4, -1);
+    miGrafito->agregarArista(1, 3, 10);
+    miGrafito->agregarArista(1, 2, 2);
+    miGrafito->agregarArista(0, 2, 5);
+    miGrafito->agregarArista(4, 2, 3);
+    miGrafito->agregarArista(2, 3, 4);
+    miGrafito->agregarArista(3, 5, 2);
+    miGrafito->agregarArista(6, 3, 15);
+    miGrafito->agregarArista(6, 5, 1);
+    miGrafito->agregarArista(2, 5, 1);
 
     // dijsktra(1, miGrafito);
 
     // floyd(miGrafito);
 
-    warshall(miGrafito);
+    // warshall(miGrafito);
 
-
+    prim(0, miGrafito);
 
     // int cantComponentesConexas = 0;
     // bool* visitados = new bool[miGrafito->getV()]();
