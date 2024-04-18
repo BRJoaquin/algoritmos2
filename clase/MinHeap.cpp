@@ -112,20 +112,20 @@ int compararInts(int a, int b) {
 }
 
 
-int main()
-{
-    MinHeap<int> * myMinHeap = new MinHeap<int>(10, compararInts);
-    for (int i = 0; i < 5; i++)
-    {
-        cout << "ingrese elemento" << endl;
-        int aux;
-        cin >> aux;
-        myMinHeap->insert(aux);
-    }
-    std::cout << "Imprimir todos los elementos" << std::endl;
-    while(!myMinHeap->isEmpty()){
-        std::cout << myMinHeap->peek() << std::endl;
-        myMinHeap->removePeek();
-    }
+// int main()
+// {
+//     MinHeap<int> * myMinHeap = new MinHeap<int>(10, compararInts);
+//     for (int i = 0; i < 5; i++)
+//     {
+//         cout << "ingrese elemento" << endl;
+//         int aux;
+//         cin >> aux;
+//         myMinHeap->insert(aux);
+//     }
+//     std::cout << "Imprimir todos los elementos" << std::endl;
+//     while(!myMinHeap->isEmpty()){
+//         std::cout << myMinHeap->peek() << std::endl;
+//         myMinHeap->removePeek();
+//     }
     
-}
+// }

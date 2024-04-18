@@ -48,21 +48,21 @@ class MFSet {
         }
 };
 
-int main()
-{
-    MFSet * grupito = new MFSet(5);
+// int main()
+// {
+//     MFSet * grupito = new MFSet(5);
 
-    grupito->merge(0, 1);
-    grupito->merge(2, 4);
-    grupito->merge(0, 3);
-    grupito->merge(3, 4);
-    grupito->merge(2, 4);
+//     grupito->merge(0, 1);
+//     grupito->merge(2, 4);
+//     grupito->merge(0, 3);
+//     grupito->merge(3, 4);
+//     grupito->merge(2, 4);
 
-    if (grupito->find(0) == grupito->find(4))
-    {
-        std::cout << "Estan en el mismos grupito!" << std::endl;
-    }else {
-        std::cout << "No estan el mismo grupito :(" << std::endl;
-    }
+//     if (grupito->find(0) == grupito->find(4))
+//     {
+//         std::cout << "Estan en el mismos grupito!" << std::endl;
+//     }else {
+//         std::cout << "No estan el mismo grupito :(" << std::endl;
+//     }
     
-}
+// }

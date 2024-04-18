@@ -3,6 +3,9 @@
 #include <climits>
 #include "../ADTs/Queue.h"
 #include "../ADTs/QueueImp.cpp"
+#include "./MinHeap.cpp"
+#include "./MFset.cpp"
+
 
 #define INF INT_MAX;
 
@@ -21,10 +24,11 @@ public:
 class Arista
 {
 public:
-    // int origen; queda en ustedes usarlo
+    int origen;
     int destino;
     int peso;
-    Arista(int _destino, int _peso = 1) : destino(_destino), peso(_peso) {}
+    Arista(int _origen, int _destino, int _peso = 1) : origen(_origen), destino(_destino), peso(_peso) {}
+    Arista(){}
 };
 
 class Grafo_LA
@@ -53,11 +57,11 @@ public:
 
     void agregarArista(int origen, int destino, int peso = 1)
     {
-        Arista a(destino, peso);
+        Arista a(origen, destino, peso);
         grafo[origen] = new NodoLista<Arista>(a, grafo[origen]);
         if (!this->esDirigido)
         {
-            Arista a(origen, peso);
+            Arista a(destino, origen, peso);
             grafo[destino] = new NodoLista<Arista>(a, grafo[destino]);
         }
     }
@@ -68,7 +72,7 @@ public:
         NodoLista<Arista> *ptr = grafo[origen];
         while (ptr != NULL)
         {
-            Arista a(ptr->dato.destino, ptr->dato.peso);
+            Arista a(ptr->dato.origen, ptr->dato.destino, ptr->dato.peso);
             ret = new NodoLista<Arista>(a, ret);
             ptr = ptr->sig;
         }
@@ -370,6 +374,51 @@ void prim(int origen, Grafo_LA *g)
     std::cout << "Con un costo total de " << sum << std::endl;
 }
 
+int compararAristas(Arista a, Arista b) {
+    return a.peso - b.peso;
+}
+
+void kruskal(Grafo_LA *g) {
+
+    int V = g->getV();
+    MinHeap<Arista> * arsitasOrdenadas = new MinHeap<Arista>(V*V, compararAristas);
+    
+    // recorremos todas las aristas y las colocamos en el heap
+    for (int i = 0; i < V; i++)
+    {
+        NodoLista<Arista> *ady = g->adyacentesA(i);
+        while (ady != NULL)
+        {
+            arsitasOrdenadas->insert(ady->dato);
+            ady = ady->sig;
+        }
+    }
+
+    Arista* acm = new Arista[V-1];
+    int cantAristas = 0;
+    
+    MFSet * mfset = new MFSet(V);
+
+    while(!arsitasOrdenadas->isEmpty() && cantAristas < V - 1) {
+        Arista a = arsitasOrdenadas->peek();
+        arsitasOrdenadas->removePeek();
+
+        if(mfset->find(a.origen) != mfset->find(a.destino)) { // la aceptamos!
+            acm[cantAristas++] = a;
+            mfset->merge(a.origen, a.destino);
+        }
+    }
+
+    int sum = 0;
+    for (int i = 0; i < cantAristas; i++)
+    {
+        Arista a = acm[i];
+        sum+=a.peso;
+        std::cout << "Aceptamos la arista " << a.origen << " " << a.destino << " "<< a.peso << std::endl;
+    }
+    std::cout << "Con un costo total de " << sum << std::endl;
+}
+
 int main()
 {
     Grafo_LA *miGrafito = new Grafo_LA(7, false);
@@ -391,7 +440,11 @@ int main()
 
     // warshall(miGrafito);
 
+    std::cout << "Prim:" << std::endl;
     prim(0, miGrafito);
+
+    std::cout << "Kruskal:" << std::endl;
+    kruskal(miGrafito);
 
     // int cantComponentesConexas = 0;
     // bool* visitados = new bool[miGrafito->getV()]();
