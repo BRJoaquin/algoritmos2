@@ -111,6 +111,39 @@ private:
         }
     }
 
+    bool existe(BSTNode *node, T buscado) {
+        if(node == NULL) {
+            return false;
+        }
+
+        BSTNode* nodeIzq = node->left;
+        BSTNode* nodeDer = node->right;
+
+        bool existeIzq = existe(nodeIzq, buscado);
+        bool existeDer = existe(nodeDer, buscado);
+
+        return existeIzq || existeDer || node->element == buscado;
+    }
+
+    bool existe(BSTNode *node, T buscado) {
+        if(node == NULL) {
+            return false;
+        }
+        if(node->element == buscado) {
+            return true;
+        }
+
+
+        BSTNode* nodeIzq = node->left;
+        BSTNode* nodeDer = node->right;
+
+        if(node->element < buscado) {
+            return existe(nodeIzq, buscado);
+        } else {
+            return existe(nodeDer, buscado);
+        }
+    }
+
     void inOrder(BSTNode *node, void (*each)(T))
     {
         if (node == NULL)
