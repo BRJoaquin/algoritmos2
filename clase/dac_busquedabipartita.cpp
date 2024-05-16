@@ -8,7 +8,7 @@
 using namespace std;
 
 
-int existe(int* arr, int i, int f, int buscado) {
+bool existe(int* arr, int i, int f, int buscado) {
     // caso base
     if(i == f) {
         return arr[i] == buscado;
@@ -24,7 +24,7 @@ int existe(int* arr, int i, int f, int buscado) {
     return estaIzq || estaDer;
 }
 
-int existev2(int* arr, int i, int f, int buscado) {
+bool existev2(int* arr, int i, int f, int buscado) {
     // caso base
     if(i == f) {
         return arr[i] == buscado;
