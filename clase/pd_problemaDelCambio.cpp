@@ -115,8 +115,8 @@ int cambio_tab2(int cambio) {
 
 int cambio_tab_camino(int cambio) {
     int* tab = new int[cambio+1]();
-    int* use = new int[CANT_MONEDAS]();
-    for (int i = 0; i < CANT_MONEDAS; i++)
+    int* use = new int[cambio+1]();
+    for (int i = 0; i <= cambio; i++)
     {
         use[i] = 0;
     }
@@ -136,17 +136,18 @@ int cambio_tab_camino(int cambio) {
                 // cambioMinimo = min(cambioMinimo, 1 + tab[c-valorMoneda]);
                 if(cambioMinimo > 1 + tab[c-valorMoneda]) {
                     cambioMinimo = 1 + tab[c-valorMoneda];
+                    use[c] = valorMoneda;
                 }
             }
         }
         tab[c] = cambioMinimo;
     }
 
-    for (int i = 0; i < CANT_MONEDAS; i++)
-    {
-        if(use[i] > 0) {
-            cout << "Use " << use[i] << " moneda/s de " << MONEDAS[i] << endl;
-        }
+    int cambioRestante = cambio;
+    while(cambioRestante > 0) {
+        int monedaUsada =  use[cambioRestante];
+        cout << "Use una moneda de " << monedaUsada << endl;
+        cambioRestante -= monedaUsada;
     }
     
 
@@ -156,7 +157,7 @@ int cambio_tab_camino(int cambio) {
 
 int main()
 {
-    int cambio = 47;
+    int cambio = 15;
     // cout << cambio_dac(CANT_MONEDAS - 1, 5000) << endl;
     // int** memo = initMatriz(cambio);
     // cout << cambio_memo(CANT_MONEDAS - 1, cambio, memo) << endl;
