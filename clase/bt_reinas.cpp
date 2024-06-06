@@ -4,6 +4,11 @@
 #include <cassert>
 using namespace std;
 
+// decision
+// optimizacion
+// enumeracion/combinatoria
+// opt-enum
+
 int N = 4;
 
 bool esSolucion(int colAct)
@@ -59,11 +64,30 @@ bool puedoColocarReina(int fTen, int cTen, bool **reinas)
     return true;
 }
 
-void nReinas(int colAct, bool **reinas)
+void imprimirTablero(bool **reinas)
+{
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            if (reinas[i][j])
+            {
+                cout << "[R] ";
+            }
+            else
+            {
+                cout << "[ ] ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+void nReinasEnum(int colAct, bool **reinas)
 {
     if (esSolucion(colAct))
     {
-        cout << "encontre una solucion!" << endl;
+        imprimirTablero(reinas);
     }
     else
     {
@@ -76,9 +100,37 @@ void nReinas(int colAct, bool **reinas)
                 // aplicamos movimiento
                 colocarLaReina(f, colAct, reinas);
                 // llamo recursivamente
-                nReinas(colAct + 1, reinas);
+                nReinasEnum(colAct + 1, reinas);
                 // deshacer movimiento
                 quitarLaReina(f, colAct, reinas);
+            }
+        }
+    }
+}
+
+void nReinasDec(int colAct, bool **reinas, bool &exito)
+{
+    if (!exito)
+    {
+        if (esSolucion(colAct))
+        {
+            exito = true;
+        }
+        else
+        {
+            // movimientos posibles
+            for (int f = 0; f < N; f++)
+            {
+                // if podemosAplicarMovimiento
+                if (puedoColocarReina(f, colAct, reinas))
+                {
+                    // aplicamos movimiento
+                    colocarLaReina(f, colAct, reinas);
+                    // llamo recursivamente
+                    nReinasDec(colAct + 1, reinas, exito);
+                    // deshacer movimiento
+                    quitarLaReina(f, colAct, reinas);
+                }
             }
         }
     }
@@ -92,5 +144,7 @@ int main()
         reinas[i] = new bool[N]();
     }
 
-    nReinas(0, reinas);
+    bool exito = false;
+    nReinasDec(0, reinas, exito);
+    cout << (!exito ? "no " : "") << "existe solucion" << endl;
 }
