@@ -162,6 +162,12 @@ public:
         size--;
     }
 
+    void empty() {
+        while(!this->isEmpty()){
+            this->removeAt(0);
+        }
+    }
+
     bool isEmpty()
     {
         return head == NULL;

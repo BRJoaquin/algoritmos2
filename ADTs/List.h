@@ -23,6 +23,10 @@ public:
     // post: the element is removed at the given index
     virtual void removeAt(int index) = 0;
 
+
+    virtual void empty() = 0;
+
+
     // pre: -
     // post: returns if the list is empty
     virtual bool isEmpty() = 0;
