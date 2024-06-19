@@ -30,6 +30,10 @@ struct Pos
 {
     int fila;
     int col;
+    bool operator==(const Pos &otro) const
+    {
+        return fila == otro.fila && col == otro.col;
+    }
 };
 
 bool hayQuePodar(int cantPasos, int mejorPasos)
