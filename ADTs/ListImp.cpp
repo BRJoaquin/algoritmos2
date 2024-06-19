@@ -195,17 +195,27 @@ public:
     }
 
     List<T>* clone() {
-        List<T>* ret = new ListImp();
-        Iterator<T> *it = getIterator();
-        while(!it->hasNext()){
-            T value = it->next();
-            ret->insert(value)
+        List<T>* newList = new ListImp<T>();
+        Node* current = head;
+        while(current != NULL) {
+            newList->insert(current->element);
+            current = current->next;
         }
-        return ret;
+        return newList;
     }
 
     bool contains(T element) {
-        return true; // TODO: implement
+        Node *current = head;
+        while (current != NULL)
+        {
+            // note: that the elment should implement == operator
+            if (current->element == element)
+            {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
     }
 };
 
