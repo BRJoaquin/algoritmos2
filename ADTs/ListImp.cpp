@@ -193,6 +193,20 @@ public:
     {
         return new ListIterator(this->head);
     }
+
+    List<T>* clone() {
+        List<T>* ret = new ListImp();
+        Iterator<T> *it = getIterator();
+        while(!it->hasNext()){
+            T value = it->next();
+            ret->insert(value)
+        }
+        return ret;
+    }
+
+    bool contains(T element) {
+        return true; // TODO: implement
+    }
 };
 
 #endif

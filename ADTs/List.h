@@ -26,7 +26,6 @@ public:
 
     virtual void empty() = 0;
 
-
     // pre: -
     // post: returns if the list is empty
     virtual bool isEmpty() = 0;
@@ -40,8 +39,16 @@ public:
     virtual int getSize() = 0;
 
     // pre: -
+    // post: returns if the element is present opn the list
+    virtual bool contains(T element) = 0;
+
+    // pre: -
     // post: returns an iterator to the list
     virtual Iterator<T> *getIterator() = 0;
+
+    // pre: -
+    // post: return a new copy of the list 
+    virtual List* clone() = 0;
 };
 
 #endif
