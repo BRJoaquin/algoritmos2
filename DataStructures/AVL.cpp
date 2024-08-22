@@ -147,6 +147,21 @@ private:
         inOrder(node->right, each);
     }
 
+    bool contains(AVLNode *node, T element) {
+        if(node == NULL) {
+            return false;
+        }
+        if(node->element == element) {
+            return true;
+        }
+        else if(node->element > element) {
+            return contains(node->left, element);
+        }
+        else {
+            return contains(node->right, element);
+        }
+    }
+
 public:
     AVL() : root(NULL) {}
 
@@ -163,7 +178,7 @@ public:
 
     bool contains(T element)
     {
-        return contains(root, element);
+        return this->contains(root, element);
     }
 
     void inOrder(void (*each)(T))
