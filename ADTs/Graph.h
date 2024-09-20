@@ -25,22 +25,7 @@ struct Edge
 class Graph
 {
 private:
-    void DFS(int from, int step, std::function<void(int, int)> each, bool *visited)
-    {
-        visited[from] = true;
-        each(from, step);
-        Edge edge;
-        Iterator<Edge> *it = this->adjacents(from);
-        while (it->hasNext())
-        {
-            edge = it->next();
-            int w = edge.to;
-            if (!visited[w])
-            {
-                DFS(w, step + 1, each, visited);
-            }
-        }
-    }
+    
 
 protected:
     int V;
@@ -66,48 +51,5 @@ public:
     int getA() { return A; }
     bool isDirected() { return directed; }
     bool isWeighted() { return weighted; }
-
-    void BFS(int from, std::function<void(int, int)> each)
-    {
-        bool *queued = new bool[V + 1]();
-        for (int i = 0; i <= V; i++)
-        {
-            queued[i] = false;
-        }
-        Queue<Tuple<int, int>> *queue = new QueueImp<Tuple<int, int>>();
-        queue->enqueue(Tuple<int, int>(from, 0));
-        queued[from] = true;
-        while (!queue->isEmpty())
-        {
-            Tuple<int, int> node = queue->dequeue();
-            int v = node.getFirst();
-            int step = node.getSecond();
-            each(v, step);
-            Edge edge;
-            Iterator<Edge> *it = adjacents(v);
-            while (it->hasNext())
-            {
-                edge = it->next();
-                int w = edge.to;
-                if (!queued[w])
-                {
-                    queued[w] = true;
-                    queue->enqueue(Tuple<int, int>(w, step + 1));
-                }
-            }
-        }
-        delete[] queued;
-    }
-
-    void DFS(int from, std::function<void(int, int)> each)
-    {
-        bool *visited = new bool[V + 1]();
-        for (int i = 0; i <= V; i++)
-        {
-            visited[i] = false;
-        }
-        DFS(from, 0, each, visited);
-        delete[] visited;
-    }
 };
 #endif
