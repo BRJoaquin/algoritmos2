@@ -36,6 +36,10 @@ public:
     virtual int getSize() = 0;
 
     // pre: -
+    // post: empty list
+    virtual void empty() = 0;
+
+    // pre: -
     // post: returns an iterator to the list
     virtual Iterator<T> *getIterator() = 0;
 };

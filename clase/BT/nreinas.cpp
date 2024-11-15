@@ -2,6 +2,9 @@
 #include <string>
 #include <iostream>
 #include <limits>
+#include "../../ADTs/List.h"
+#include "../../ADTs/ListImp.cpp"
+
 using namespace std;
 
 int N = 8;

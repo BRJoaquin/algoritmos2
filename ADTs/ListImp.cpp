@@ -38,6 +38,13 @@ private:
         }
     };
 
+    void removeRec(Node *toRemove) {
+        if(toRemove != NULL) {
+            removeRec(toRemove->next);
+            delete toRemove;
+        }
+    }
+
     Node *head;
     Node *tail;
     int size;
@@ -181,6 +188,14 @@ public:
     int getSize()
     {
         return size;
+    }
+
+    void empty()
+    {
+        Node *toRemove = this->head;
+        removeRec(toRemove);
+        this->head = NULL;
+
     }
 
     Iterator<T> *getIterator()
