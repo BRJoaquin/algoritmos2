@@ -194,7 +194,7 @@ public:
     {
         int index = calculateIndex(key, 0);
         bool found = false;
-        int tryCount;
+        int tryCount = 1;
         while (!found)
         {
             if (isDeleted[index])
