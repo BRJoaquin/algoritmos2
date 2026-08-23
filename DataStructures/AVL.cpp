@@ -19,6 +19,12 @@ private:
 
     AVLNode *root; // root of the tree
 
+    // Local replacement for std::max, so this file needs no <algorithm>.
+    int maxInt(int a, int b)
+    {
+        return a > b ? a : b;
+    }
+
     // A utility function to get the height of the tree.
     // In case of an empty tree, it returns 0.
     int height(AVLNode *node)
@@ -42,10 +48,10 @@ private:
         y->left = T2;
 
         // Update heights
-        y->height = std::max(height(y->left),
+        y->height = maxInt(height(y->left),
                              height(y->right)) +
                     1;
-        x->height = std::max(height(x->left),
+        x->height = maxInt(height(x->left),
                              height(x->right)) +
                     1;
 
@@ -65,10 +71,10 @@ private:
         x->right = T2;
 
         // Update heights
-        x->height = std::max(height(x->left),
+        x->height = maxInt(height(x->left),
                              height(x->right)) +
                     1;
-        y->height = std::max(height(y->left),
+        y->height = maxInt(height(y->left),
                              height(y->right)) +
                     1;
 
@@ -100,7 +106,7 @@ private:
             return node;
 
         /* 2. Update height of this ancestor AVLnode */
-        node->height = 1 + std::max(height(node->left),
+        node->height = 1 + maxInt(height(node->left),
                                     height(node->right));
 
         /* 3. Get the balance factor of this ancestor
@@ -136,6 +142,29 @@ private:
         /* return the (unchanged) node pointer */
         return node;
     }
+    // Reports every element inside the closed interval [from, to], in order.
+    // Prunes a subtree as soon as the interval cannot reach it, so the cost is
+    // O(log n + r) with r the number of reported elements.
+    void range(AVLNode *node, T from, T to, void (*each)(T))
+    {
+        if (node == NULL)
+        {
+            return;
+        }
+        if (from < node->element)
+        {
+            range(node->left, from, to, each);
+        }
+        if (!(node->element < from) && !(to < node->element))
+        {
+            each(node->element);
+        }
+        if (node->element < to)
+        {
+            range(node->right, from, to, each);
+        }
+    }
+
     void inOrder(AVLNode *node, void (*each)(T))
     {
         if (node == NULL)
@@ -184,6 +213,11 @@ public:
     void inOrder(void (*each)(T))
     {
         inOrder(root, each);
+    }
+
+    void range(T from, T to, void (*each)(T))
+    {
+        range(root, from, to, each);
     }
 };
 

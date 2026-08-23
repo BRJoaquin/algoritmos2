@@ -43,7 +43,7 @@ private:
     int size;
 
 public:
-    ListImp() : head(NULL), size(0) {}
+    ListImp() : head(NULL), tail(NULL), size(0) {}
 
     void insert(T element)
     {

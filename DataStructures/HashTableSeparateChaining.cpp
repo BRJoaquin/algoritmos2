@@ -98,6 +98,23 @@ private:
         }
     }
 
+    /**
+     * Returns the bucket that corresponds to the given key.
+     * Folds a negative remainder by hand, so this file needs no <cstdlib>
+     * and no special case for the smallest int.
+     *
+     * @param key The key to place.
+     */
+    int indexOf(K key)
+    {
+        int index = hashFunction(key) % buckets;
+        if (index < 0)
+        {
+            index += buckets;
+        }
+        return index;
+    }
+
 public:
     /**
      * It creates a hash table with a given capacity and hash function.
@@ -109,7 +126,7 @@ public:
      * @param compareFunction This is a function pointer that takes two keys as parameters and returns
      * a boolean value. This function is used to compare two keys.
      */
-    HashTableSeparateChaining(int capacity, int (*hashFunction)(K), bool (*compareFunction)(K, K)) : buckets(capacity), hashFunction(hashFunction), compareFunction(compareFunction)
+    HashTableSeparateChaining(int capacity, int (*hashFunction)(K), bool (*compareFunction)(K, K)) : elementCount(0), buckets(capacity), hashFunction(hashFunction), compareFunction(compareFunction)
     {
         table = new Node *[buckets]();
         for (int i = 0; i < buckets; i++)
@@ -127,7 +144,7 @@ public:
      */
     void insert(K key, V value)
     {
-        int index = abs(hashFunction(key)) % buckets;
+        int index = indexOf(key);
         this->insertRecursive(key, value, table[index]);
     }
 
@@ -143,7 +160,7 @@ public:
     V get(K key)
     {
         assert(this->exists(key));
-        int index = abs(hashFunction(key)) % buckets;
+        int index = indexOf(key);
         Node *node = table[index];
         while (node != NULL)
         {
@@ -163,7 +180,7 @@ public:
      */
     bool exists(K key)
     {
-        int index = abs(hashFunction(key)) % buckets;
+        int index = indexOf(key);
         Node *node = table[index];
         while (node != NULL)
         {
@@ -177,6 +194,27 @@ public:
     }
 
     /**
+     * Returns a pointer to the value stored for the given key, or NULL when the
+     * key is not in the table. Lets the caller read and update the value with a
+     * single walk of the chain.
+     *
+     * @param key The key to search for.
+     */
+    V *find(K key)
+    {
+        Node *node = table[indexOf(key)];
+        while (node != NULL)
+        {
+            if (this->compareFunction(node->key, key))
+            {
+                return &node->value;
+            }
+            node = node->next;
+        }
+        return NULL;
+    }
+
+    /**
      * If the key exists, then remove it.
      *
      * @param key The key of the element to be removed.
@@ -184,7 +222,7 @@ public:
     void remove(K key)
     {
         assert(this->exists(key));
-        int index = abs(hashFunction(key)) % buckets;
+        int index = indexOf(key);
         this->removeRecursive(key, table[index]);
     }
 
@@ -202,6 +240,25 @@ public:
     int getSize()
     {
         return elementCount;
+    }
+
+    /**
+     * Applies the given function to every key and value in the table.
+     * Walks every bucket and every chain once: O(buckets + elements).
+     *
+     * @param each The function to apply.
+     */
+    void forEach(void (*each)(K, V))
+    {
+        for (int i = 0; i < buckets; i++)
+        {
+            Node *node = table[i];
+            while (node != NULL)
+            {
+                each(node->key, node->value);
+                node = node->next;
+            }
+        }
     }
 
     /**
