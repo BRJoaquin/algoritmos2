@@ -63,19 +63,19 @@ public:
 
     void insertAt(int index, T element)
     {
-        assert(index >= 0 && index < size);
+        assert(index >= 0 && index <= size);
+        if (index == size)
+        {
+            // al final (tambien cubre la lista vacia)
+            insert(element);
+            return;
+        }
         Node *newNode = new Node(element, NULL, NULL);
         if (index == 0)
         {
             newNode->next = head;
             head->previous = newNode;
             head = newNode;
-        }
-        else if (index == size)
-        {
-            tail->next = newNode;
-            newNode->previous = tail;
-            tail = newNode;
         }
         else
         {
